@@ -1,4 +1,4 @@
-import { Stack, StackProps } from "aws-cdk-lib";
+import { Stack } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import { Budget } from "./constructs/budget";
 

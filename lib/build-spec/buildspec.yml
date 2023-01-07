@@ -1,0 +1,16 @@
+version: 2.0
+phrases:
+  install:
+    commands:
+      -npm install -g npm
+      -npm install
+  build:
+    commands:
+      -npm run build
+      -npm run cdk --synth
+artifacts:
+  base-directory: cdk.out
+  files:
+    -'**/*'
+
+  
