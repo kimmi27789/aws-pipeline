@@ -38,7 +38,7 @@ export class CodepipelineStack extends Stack {
 					branch: "master",
 					actionName: "pipeline-source",
 					output: sourceArtifact,
-					oauthToken: SecretValue.secretsManager("github-token"),
+					oauthToken: SecretValue.secretsManager("git-secret"),
 				}),
 			],
 		});
