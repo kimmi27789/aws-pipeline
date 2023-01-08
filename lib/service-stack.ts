@@ -62,7 +62,7 @@ export class ServiceStack extends Stack {
 				environmentName: "MySampleEnvironment",
 				applicationName: app.applicationName || appName,
 				optionSettings: optionSettingProperties,
-				solutionStackName: "64bit Amazon Linux 2 v5.6.3 running Node.js",
+				solutionStackName: "64bit Amazon Linux 2 v3.5.3 running PHP 8.1",
 				// This line is critical - reference the label created in this same stack
 				versionLabel: appVersionProps.ref,
 			},
