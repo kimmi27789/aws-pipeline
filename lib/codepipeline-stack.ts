@@ -67,7 +67,7 @@ export class CodepipelineStack extends Stack {
 			actions: [
 				new CloudFormationCreateUpdateStackAction({
 					actionName: "pipeline-update",
-					stackName: "codePipeLineStacjk",
+					stackName: "codePipeLineStack",
 					adminPermissions: true,
 					templatePath: buildArtifact.atPath("codePipeLineStack.template.json"),
 				}),
