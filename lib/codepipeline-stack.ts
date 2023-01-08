@@ -28,7 +28,6 @@ export class CodepipelineStack extends Stack {
 		});
 
 		const sourceArtifact = new Artifact("SourceArtifact");
-		const buildArtifact = new Artifact("BuildArtifact");
 
 		pipeline.addStage({
 			stageName: "Source",
@@ -43,6 +42,8 @@ export class CodepipelineStack extends Stack {
 				}),
 			],
 		});
+
+		const buildArtifact = new Artifact("BuildArtifact");
 
 		pipeline.addStage({
 			stageName: "Build",
