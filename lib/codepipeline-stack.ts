@@ -57,7 +57,7 @@ export class CodepipelineStack extends Stack {
 							buildImage: LinuxBuildImage.STANDARD_5_0,
 						},
 						buildSpec: BuildSpec.fromSourceFilename(
-							"./build-spec/buildspec.yml",
+							"../lib/build-spec/buildspec.yml",
 						),
 					}),
 				}),
