@@ -1,5 +1,6 @@
 version: 2.0
-phrases:
+
+phases:
   install:
     commands:
       -npm install -g npm
