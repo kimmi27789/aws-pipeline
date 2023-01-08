@@ -35,7 +35,7 @@ export class CodepipelineStack extends Stack {
 				new GitHubSourceAction({
 					owner: "kimmi27789",
 					repo: "aws-pipeline",
-					branch: "master",
+					branch: "main",
 					actionName: "pipeline-source",
 					output: sourceArtifact,
 					oauthToken: SecretValue.secretsManager("git-secret"),
