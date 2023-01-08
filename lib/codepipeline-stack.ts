@@ -56,7 +56,7 @@ export class CodepipelineStack extends Stack {
 						environment: {
 							buildImage: LinuxBuildImage.STANDARD_5_0,
 						},
-						buildSpec: BuildSpec.fromSourceFilename("buid-spec/buildspec.yml"),
+						buildSpec: BuildSpec.fromSourceFilename("build-spec/buildspec.yml"),
 					}),
 				}),
 			],
