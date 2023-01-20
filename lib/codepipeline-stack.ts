@@ -25,6 +25,7 @@ export class CodepipelineStack extends Stack {
 		const pipeline = new Pipeline(this, "codePipeLine", {
 			pipelineName: "sample-angular-app-pipeline",
 			crossAccountKeys: false,
+			restartExecutionOnUpdate: true,
 		});
 
 		const pipelineSourceArtifact = new Artifact("pipelineSourceArtifact");
