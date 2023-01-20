@@ -9,6 +9,8 @@ import {
 	CloudFormationCreateUpdateStackAction,
 	CodeBuildAction,
 	CodeBuildActionType,
+	CodeDeployServerDeployAction,
+	ElasticBeanstalkDeployAction,
 	GitHubSourceAction,
 } from "aws-cdk-lib/aws-codepipeline-actions";
 import { Construct } from "constructs";
@@ -127,15 +129,22 @@ export class CodepipelineStack extends Stack {
 			],
 		});
 
+		const appName = "sample-app";
 		pipeline.addStage({
 			stageName: "Deploy",
 			actions: [
-				new CloudFormationCreateUpdateStackAction({
+				new ElasticBeanstalkDeployAction({
 					actionName: "Pipeline-deploy",
-					stackName: "ebsstack",
-					adminPermissions: true,
-					templatePath: pipelienBuildArtifact.atPath("ebsstack.template.json"),
+					applicationName: `${appName}-EB-App`,
+					environmentName: `${appName}-EB-Env`,
+					input: serviceBuildArtifact,
 				}),
+				// new CloudFormationCreateUpdateStackAction({
+				// 	actionName: "Pipeline-deploy",
+				// 	stackName: "ebsstack",
+				// 	adminPermissions: true,
+				// 	templatePath: pipelienBuildArtifact.atPath("ebsstack.template.json"),
+				// }),
 			],
 		});
 	}
