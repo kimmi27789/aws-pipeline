@@ -105,7 +105,7 @@ export class CodepipelineStack extends Stack {
 								value: "kimmi27071989",
 							},
 						},
-						buildSpec: BuildSpec.fromSourceFilename("buildspecService.yml"),
+						buildSpec: BuildSpec.fromSourceFilename("buildspec.yml"),
 					}),
 				}),
 			],
