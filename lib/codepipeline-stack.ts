@@ -27,7 +27,8 @@ export class CodepipelineStack extends Stack {
 			crossAccountKeys: false,
 		});
 
-		const sourceArtifact = new Artifact("SourceArtifact");
+		const pipelineSourceArtifact = new Artifact("pipelineSourceArtifact");
+		const serviceSourceArtifact = new Artifact("serviceSourceArtifact");
 
 		pipeline.addStage({
 			stageName: "Source",
@@ -37,27 +38,74 @@ export class CodepipelineStack extends Stack {
 					repo: "aws-pipeline",
 					branch: "main",
 					actionName: "pipeline-source",
-					output: sourceArtifact,
+					output: pipelineSourceArtifact,
+					oauthToken: SecretValue.secretsManager("git-secret"),
+				}),
+				new GitHubSourceAction({
+					owner: "kimmi27789",
+					repo: "docker",
+					branch: "master",
+					actionName: "service-source",
+					output: serviceSourceArtifact,
 					oauthToken: SecretValue.secretsManager("git-secret"),
 				}),
 			],
 		});
 
-		const buildArtifact = new Artifact("BuildArtifact");
+		const pipelienBuildArtifact = new Artifact("pipelienBuildArtifact");
+		const serviceBuildArtifact = new Artifact("serviceBuildArtifact");
 
 		pipeline.addStage({
 			stageName: "Build",
 			actions: [
 				new CodeBuildAction({
 					actionName: "pipeline-build",
-					input: sourceArtifact,
-					outputs: [buildArtifact],
+					input: pipelineSourceArtifact,
+					outputs: [pipelienBuildArtifact],
 					type: CodeBuildActionType.BUILD,
-					project: new PipelineProject(this, "buildProject", {
+					project: new PipelineProject(this, "pipelineBuildProject", {
 						environment: {
 							buildImage: LinuxBuildImage.STANDARD_5_0,
 						},
 						buildSpec: BuildSpec.fromSourceFilename("buildspec.yml"),
+					}),
+				}),
+				new CodeBuildAction({
+					actionName: "service-build",
+					input: serviceSourceArtifact,
+					outputs: [serviceBuildArtifact],
+					type: CodeBuildActionType.BUILD,
+					project: new PipelineProject(this, "serviceBuildProject", {
+						environment: {
+							buildImage: LinuxBuildImage.STANDARD_5_0,
+						},
+						environmentVariables: {
+							environment: {
+								value: "dev",
+							},
+							AWS_DEFAULT_REGION: {
+								value: "ap-south-1",
+							},
+							AWS_ACCOUNT_ID: {
+								value: 874031905833,
+							},
+							IMAGE_REPO_NAME: {
+								value: "sample-angular-app",
+							},
+							IMAGE_TAG: {
+								value: "latest",
+							},
+							CONTAINER_NAME: {
+								value: "sample-angular-app",
+							},
+							DOCKERHUB_USERNAME: {
+								value: "kimmi27789",
+							},
+							DOCKERHUB_PASSWORD: {
+								value: "kimmi27071989",
+							},
+						},
+						buildSpec: BuildSpec.fromSourceFilename("buildspecService.yml"),
 					}),
 				}),
 			],
@@ -70,7 +118,9 @@ export class CodepipelineStack extends Stack {
 					actionName: "pipeline-update",
 					stackName: "codePipeLineStack",
 					adminPermissions: true,
-					templatePath: buildArtifact.atPath("codePipeLineStack.template.json"),
+					templatePath: pipelienBuildArtifact.atPath(
+						"codePipeLineStack.template.json",
+					),
 				}),
 			],
 		});

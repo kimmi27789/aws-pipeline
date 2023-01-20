@@ -12,7 +12,7 @@ export class ServiceStack extends Stack {
 			path: `${__dirname}/../php.zip`,
 		});
 
-		const appName = "MyApp";
+		const appName = "sample-app";
 		const app = new aws_elasticbeanstalk.CfnApplication(this, "Application", {
 			applicationName: appName,
 		});
