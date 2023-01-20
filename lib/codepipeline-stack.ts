@@ -134,7 +134,7 @@ export class CodepipelineStack extends Stack {
 					actionName: "Pipeline-deploy",
 					stackName: "ebsstack",
 					adminPermissions: true,
-					templatePath: serviceBuildArtifact.atPath("ebsstack.template.json"),
+					templatePath: pipelienBuildArtifact.atPath("ebsstack.template.json"),
 				}),
 			],
 		});
