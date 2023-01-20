@@ -126,5 +126,17 @@ export class CodepipelineStack extends Stack {
 				}),
 			],
 		});
+
+		pipeline.addStage({
+			stageName: "Deploy",
+			actions: [
+				new CloudFormationCreateUpdateStackAction({
+					actionName: "Pipeline-deploy",
+					stackName: "ebsstack",
+					adminPermissions: true,
+					templatePath: serviceBuildArtifact.atPath("ebsstack.template.json"),
+				}),
+			],
+		});
 	}
 }
