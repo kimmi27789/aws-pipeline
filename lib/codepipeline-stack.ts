@@ -78,6 +78,7 @@ export class CodepipelineStack extends Stack {
 					project: new PipelineProject(this, "serviceBuildProject", {
 						environment: {
 							buildImage: LinuxBuildImage.STANDARD_5_0,
+							privileged: true,
 						},
 						environmentVariables: {
 							environment: {
